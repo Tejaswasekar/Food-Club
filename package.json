@@ -17,8 +17,10 @@
   "homepage": "https://github.com/Tejaswasekar/React-js#readme",
   "description": "",
   "dependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "dom": "^0.0.3",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "react-router-dom": "^6.30.2"
   },
   "devDependencies": {
     "parcel": "^2.15.4"

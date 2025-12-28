@@ -39,3 +39,35 @@ git push -u origin main
 ```
 
 Replace `<your-username>` and `<repo-name>` accordingly.
+
+## Local CORS proxy (for calling Swiggy update endpoint)
+
+The Swiggy `/dapi/restaurants/list/update` endpoint blocks cross-origin requests from the browser. To test POST-based pagination locally you can run a simple proxy which forwards requests to Swiggy and returns the response.
+
+1. Start the proxy server (requires Node 18+):
+
+```bash
+node proxy-server.js
+```
+
+2. In your frontend (during development), POST to the proxy instead of directly to Swiggy:
+
+```js
+// example payload
+fetch("http://localhost:4000/api/restaurants/update", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    lat: 18.4704756,
+    lng: 73.8698726,
+    pageOffset: { nextOffset: "<token>" },
+  }),
+})
+  .then((r) => r.json())
+  .then((data) => console.log(data));
+```
+
+Notes:
+
+- The included `proxy-server.js` is for local development only. Do not use it in production.
+- If you want me to update `src/components/Body.js` to call the proxy automatically when running locally, I can patch it for you.
