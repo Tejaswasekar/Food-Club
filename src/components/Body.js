@@ -1,6 +1,7 @@
 import RestaurantCard from "./RestaurantCard";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 let Body = () => {
   let [resList, setresList] = useState([]);
@@ -30,12 +31,14 @@ let Body = () => {
     );
   };
 
-  // Conditional Rendering => Rendering on the basis of condition is called as Conditional Rendering.
-  if (resList.length === 0) {
-    return <Shimmer />;
+  const onlinestatus = useOnlineStatus();
+  if (onlinestatus === false) {
+    return <h1>🔴 Offline, Please check your internet connection!!</h1>;
   }
-
-  return (
+  
+  return resList.length === 0 ? (
+    <Shimmer />
+  ) : (
     <div className="body">
       <div className="filter">
         <div className="search">

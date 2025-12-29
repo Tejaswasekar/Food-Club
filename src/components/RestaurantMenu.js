@@ -1,46 +1,10 @@
-import { useState, useEffect } from "react";
+import useRestarantMenu from "../utils/useRestaurantMenu";
 import Shimmer from "./Shimmer";
+import { useParams } from "react-router-dom";
 
 const RestaurantMenu = () => {
-  const [resInfo, setResInfo] = useState(null);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // https://corsproxy.io/?url=https://example.com/api/
-
-  const fetchData = async () => {
-  try {
-    const response = await fetch(
-      "https://corsproxy.io/?url=https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=18.4706021&lng=73.868921&restaurantId=407778&catalog_qa=undefined&submitAction=ENTER"
-    );
-
-    // 1️⃣ Check HTTP status
-    if (!response.ok) {
-      throw new Error(`HTTP Error: ${response.status}`);
-    }
-
-    // 2️⃣ Read raw response first
-    const text = await response.text();
-
-    // 3️⃣ Check empty response
-    if (!text) {
-      throw new Error("Empty response received");
-    }
-
-    // 4️⃣ Safely parse JSON
-    const json = JSON.parse(text);
-
-    console.log(json);
-
-    // 5️⃣ Optional chaining to avoid crashes
-    setResInfo(json?.data ?? null);
-
-  } catch (error) {
-    console.error("Failed to fetch Swiggy data:", error.message);
-  }
-};
+  const {resId} = useParams();
+  const resInfo = useRestarantMenu(resId);
 
   if (resInfo === null) return <Shimmer />;
 
