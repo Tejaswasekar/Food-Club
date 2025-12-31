@@ -41,10 +41,10 @@ let Body = () => {
   ) : (
     <div className="body">
       <div className="filter">
-        <div className="search">
+        <div className="search m-4 p-4">
           <input
             type="text"
-            className="search-text"
+            className="search-text border-solid border-black border"
             value={searchText}
             onChange={(e) => {
               setsearchText(e.target.value);

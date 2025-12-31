@@ -17,10 +17,12 @@
   "homepage": "https://github.com/Tejaswasekar/React-js#readme",
   "description": "",
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
     "dom": "^0.0.3",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "react-router-dom": "^6.30.2"
+    "react-router-dom": "^6.30.2",
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "parcel": "^2.15.4"
