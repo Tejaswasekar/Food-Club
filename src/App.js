@@ -8,18 +8,24 @@ import Error from "./components/Error";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import RestaurantMenu from "./components/RestaurantMenu";
 import Shimmer from "./components/Shimmer";
+import { Provider } from "react-redux";
+import AppStore from "./utils/AppStore";
 
 // implementing lazy loading for Grocery component (code splitting, Dynamic Bunlding, On demand loading, Dynamic Importing)
 const Grocery = lazy(() => import("./components/Grocery"));
+
+const Cart = lazy(() => import("./components/Cart"));
 
 const About = lazy(() => import("./components/About"));
 
 let Applayout = () => {
   return (
-    <div id="app">
-      <Header />
-      <Outlet />
-    </div>
+    <Provider store={AppStore}>
+      <div id="app">
+        <Header /> 
+        <Outlet />
+      </div>
+    </Provider>
   );
 };
 
@@ -60,6 +66,10 @@ const appRouter = createBrowserRouter([
             <Grocery />
           </Suspense>
         ),
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },

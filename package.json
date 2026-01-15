@@ -17,14 +17,22 @@
   "homepage": "https://github.com/Tejaswasekar/React-js#readme",
   "description": "",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
     "@tailwindcss/postcss": "^4.1.18",
     "dom": "^0.0.3",
     "react": "19.1.1",
     "react-dom": "19.1.1",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^6.30.2",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.6",
+    "@babel/preset-env": "^7.28.6",
+    "@testing-library/react": "^16.3.1",
+    "babel-jest": "^30.2.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "parcel": "^2.15.4"
   }
 }
