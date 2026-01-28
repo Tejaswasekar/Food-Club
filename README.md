@@ -48,6 +48,7 @@ npm run build
 This project uses Jest together with React Testing Library for component testing.
 
 - Key testing libraries:
+
   - `jest` — test runner
   - `@testing-library/react` — utilities for rendering components and querying DOM
   - `@testing-library/jest-dom` — extended DOM matchers
@@ -79,7 +80,8 @@ Troubleshooting common test errors:
 
 - The restaurant menu component initially attempted to fetch from a Swiggy endpoint which can present CORS issues. For local development you can:
   1. Use the local JSON `src/utils/MenuData.js` (already included) to avoid network calls during development and testing.
- 2. Or run the local proxy `node proxy-server.js` and point your requests to `http://localhost:4000/api/...` while developing.
+
+2.  Or run the local proxy `node proxy-server.js` and point your requests to `http://localhost:4000/api/...` while developing.
 
 - If the app shows a runtime error complaining about `react` and `react-dom` version mismatch, make sure both packages have identical versions in `package.json` and reinstall.
 
