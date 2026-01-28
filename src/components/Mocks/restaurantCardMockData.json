@@ -1,0 +1,11 @@
+{
+  "info": {
+    "id": "123",
+    "cloudinaryImageId": "sample-image",
+    "name": "Pizza Hut",
+    "avgRating": "4.2",
+    "costForTwo": "₹500 for two",
+    "deliveryTime": "30 mins",
+    "promoted": true
+  }
+}

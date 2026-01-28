@@ -47,6 +47,7 @@ let Body = () => {
         <div className="search m-4 p-4">
           <input
             type="text"
+            data-testid ="search-input"
             className="border border-solid border-black "
             value={searchText}
             onChange={(e) => {
@@ -54,7 +55,7 @@ let Body = () => {
             }}
           ></input>
           <button
-            className="px-4 py-2 bg-purple-200 m-4 rounded-lg font-bold"
+            className="px-4 py-2 bg-purple-200 m-4 rounded-lg font-bold cursor-pointer"
             onClick={() => {
               console.log(searchText);
 
@@ -71,7 +72,8 @@ let Body = () => {
         </div>
         <div className="search m-4 p-4 flex item-center">
           <button
-            className="px-4 py-2 bg-purple-200 m-4 rounded-xl font-bold"
+            className="px-4 py-2 bg-purple-200 m-4 rounded-xl font-bold cursor-pointer"
+            data-testid="top-rated-btn"
             onClick={() => {
               let filteredList = resList.filter(
                 (restaurant) => restaurant.info.avgRating > 4

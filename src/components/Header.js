@@ -5,7 +5,7 @@ import useOnlineStatus from "../utils/useOnlineStatus";
 import { useSelector } from "react-redux";
 
 let Header = () => {
-  let [btnName, setbtnName] = useState(["login"]);
+  let [btnName, setbtnName] = useState("Login");
 
   const onlinestatus = useOnlineStatus();
 

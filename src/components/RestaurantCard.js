@@ -9,7 +9,7 @@ let RestaurantCard = (props) => {
 
   return (
     <Link to={`/restaurant/${id}`} className="no-underline text-inherit">
-      <div className="m-4 p-4 w-62.5 bg-purple-100 rounded-lg hover:bg-purple-200 hover:shadow-lg ">
+      <div data-testid="restaurant-card" className="m-4 p-4 w-62.5 bg-purple-100 rounded-lg hover:bg-purple-200 hover:shadow-lg ">
         <img className="rounded-lg" src={CDN_IMAGE_URL + cloudinaryImageId} />
         <h3 className="font-extrabold py-4 text-lg">{name}</h3>
         <h4>{avgRating} Stars</h4>

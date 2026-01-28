@@ -4,6 +4,20 @@ This is a React project for a Food Club UI. Below I explain how to run the proje
 
 ## Quick start
 
+# Food Club
+
+Food Club is a small React application that demonstrates a restaurant listing and menu UI. It includes routing, local mock data for menus, basic state management with Redux for a cart, and a test suite using Jest and React Testing Library.
+
+## Project structure (important files)
+
+- `index.html` — HTML entry.
+- `src/App.js` — Router and route definitions (uses `react-router-dom@6`).
+- `src/components/` — React components (Header, Body, RestaurantCard, RestaurantMenu, ContactUs, Error, Shimmer, etc.).
+- `src/utils/` — helper utilities and hooks (`useOnlineStatus`, `useRestaurantMenu`, constants, and mocked `MenuData`).
+- `proxy-server.js` — local Express proxy for forwarding certain Swiggy endpoints (development only).
+
+## Quick start
+
 1. Install dependencies
 
 ```bash
@@ -16,96 +30,65 @@ npm install
 npm start
 ```
 
-3. Build
+3. Build for production
 
 ```bash
 npm run build
 ```
 
-## GitHub publishing
+## Scripts
 
-- If you have the GitHub CLI `gh` installed you can create and push the remote with:
+- `npm start` — start the Parcel dev server.
+- `npm run build` — build production assets.
+- `npm test` — run Jest tests.
+- `npm run test:watch` — run tests in watch mode.
+
+## Testing (how the test environment is set up)
+
+This project uses Jest together with React Testing Library for component testing.
+
+- Key testing libraries:
+  - `jest` — test runner
+  - `@testing-library/react` — utilities for rendering components and querying DOM
+  - `@testing-library/jest-dom` — extended DOM matchers
+
+- Test location: `src/components/__tests__/` contains unit tests for UI components (Header, Body, RestaurantCard, etc.).
+
+- Mock data: tests use JSON mocks located in `src/components/Mocks/` (e.g., `mockResListData.json`, `restaurantCardMockData.json`).
+
+- Common testing patterns used:
+  - Wrap components that use `react-router` `Link` / `useNavigate` with `<BrowserRouter>` in tests.
+  - Provide Redux store via `<Provider>` when a component reads from the store.
+  - Mock `fetch` globally in tests that rely on network responses (see `search.test.js`).
+
+How to run tests locally:
 
 ```bash
-repo_name=$(basename "$PWD" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
-gh repo create "$repo_name" --public --source=. --remote=origin --push --confirm
+npm test
+# Run a single test file in watch mode
+npm run test -- src/components/__tests__/search.test.js
 ```
 
-- If you don't have `gh`, create a repository on GitHub via the website and then run:
+Troubleshooting common test errors:
 
-```bash
-git remote add origin https://github.com/<your-username>/<repo-name>.git
-git push -u origin main
-```
+- "Cannot find module '../Mocks/...'": add the missing JSON mock or correct the import path.
+- Router context errors (e.g., `useContext(...) is null`): wrap the component in a `BrowserRouter` for the test.
+- Use `screen` from `@testing-library/react` to query rendered elements instead of relying on DOM globals.
 
-Replace `<your-username>` and `<repo-name>` accordingly.
+## Known development notes
 
-## Local CORS proxy (for calling Swiggy update endpoint)
+- The restaurant menu component initially attempted to fetch from a Swiggy endpoint which can present CORS issues. For local development you can:
+  1. Use the local JSON `src/utils/MenuData.js` (already included) to avoid network calls during development and testing.
+ 2. Or run the local proxy `node proxy-server.js` and point your requests to `http://localhost:4000/api/...` while developing.
 
-The Swiggy `/dapi/restaurants/list/update` endpoint blocks cross-origin requests from the browser. To test POST-based pagination locally you can run a simple proxy which forwards requests to Swiggy and returns the response.
+- If the app shows a runtime error complaining about `react` and `react-dom` version mismatch, make sure both packages have identical versions in `package.json` and reinstall.
 
-1. Start the proxy server (requires Node 18+):
+## Contributing / next steps I can take
 
-```bash
-node proxy-server.js
-```
+- Commit and push the current changes (tests, mock data, component fixes) — I can do this on your behalf.
+- Add CI config (GitHub Actions) to run `npm test` on pushes and pull requests.
+- Improve test coverage on `Body.js` to better exercise the search and filtering flows.
 
-2. In your frontend (during development), POST to the proxy instead of directly to Swiggy:
+---
 
-```js
-// example payload
-fetch("http://localhost:4000/api/restaurants/update", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    lat: 18.4704756,
-    lng: 73.8698726,
-    pageOffset: { nextOffset: "<token>" },
-  }),
-})
-  .then((r) => r.json())
-  .then((data) => console.log(data));
-```
-
-Notes:
-
-- The included `proxy-server.js` is for local development only. Do not use it in production.
-- If you want me to update `src/components/Body.js` to call the proxy automatically when running locally, I can patch it for you.
-
-## Features (what I added)
-
-I added the following features and optimizations while working on this project. Today's additions (2025-12-30) are noted.
-
-- Routing and pages
-  - I installed and configured `react-router-dom` and added routes in `src/App.js` for `/`, `/about`, and `/contact`.
-  - I wired an `errorElement` on the root route and added a catch-all `*` route so routing errors and 404s are handled centrally.
-
-- Pages & components
-  - `src/components/ContactUs.js` — I added a simple Contact page.
-  - `src/components/About.js` — About page placeholder was added.
-  - `src/components/Error.js` — I implemented a centralized error UI that uses `useRouteError()` to surface status, message and stack when available.
-
-- Restaurant menu fetching
-  - `src/components/RestaurantMenu.js` — I implemented robust fetch logic with `loading`, `error`, and `menuData` state, defensive `res.ok` checks, headers, and helpful logging.
-  - I included `proxy-server.js` to forward requests to Swiggy for local development to avoid CORS issues.
-
-- User and utilities
-  - `src/components/User.js` — I updated the increase/decrease controls so they update both `count` and `count2` together using functional state updates.
-  - Added utilities: `src/utils/useOnlineStatus.js` and `src/utils/useRestaurantMenu.js` to help with online detection and menu-related hooks.
-
-- Dependency & version fixes
-  - I removed an incorrect `router` package and installed `react-router-dom@6`.
-  - I aligned `react` and `react-dom` versions to fix the runtime version mismatch error.
-
-## Added today (2025-12-30)
-
-- Minor improvements to `Header.js` and `Body.js` for navigation and layout consistency.
-- Added `useOnlineStatus` and `useRestaurantMenu` hooks in `src/utils/` to improve resilience and encapsulate fetching logic.
-
-## Notes & next steps
-
-- If you see CORS errors when fetching Swiggy endpoints, run the local proxy with `node proxy-server.js` and use `http://localhost:4000/api/restaurants/update` from the frontend during development.
-- I can add a navigation link to the Contact page in `src/components/Header.js` and a simple contact form in `ContactUs.js` if you want.
-- If you prefer a fixed Parcel port, I can update the `start` script in `package.json` to specify `--port 1234`.
-
-If you'd like, I will delete `FEATURES.md` now and commit these changes.
+If you want me to commit and push these README updates and any unstaged changes, tell me and I'll push them to `origin/main` for you.
